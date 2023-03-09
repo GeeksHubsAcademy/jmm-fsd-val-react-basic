@@ -1,0 +1,199 @@
+//main.jsx------------------------------------------------------------------
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import {App} from './App'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App title="Mi nuevo prop" subtitle="Hola subtitle"/>
+  </React.StrictMode>,
+)
+
+
+//App.jsx------------------------------------------------------------------
+import React from 'react';
+
+// let valor = 'Hola Mundo';
+// let valor = [1,2,3,4,5,6];
+// let valor = [{
+//     nombre:'Jose',
+//     title:'Hola Mundo'
+// },{
+//     nombre:'Jose',
+//     title:'Hola Mundo'
+// }];
+
+// const suma = ()=>{return 4+4};
+
+
+export const App = ({title}) => {
+
+  return (
+    <>
+        <h4>{ title }</h4>
+        <p>Soy un subtitulo</p>
+    </>
+  )
+}
+
+
+------------------------------------------------------------------------------
+npm install prop-types
+
+//App.jsx---------------------------------------------------------------------
+import Proptypes from 'prop-types';
+
+App.propTypes = {
+  title: Proptypes.string.isRequired,
+};
+
+App.defaultProps = {
+  title: 'No Hay título',
+};
+
+
+-------------------------------------------------------------------------------
+Eventos en react
+https://es.reactjs.org/docs/events.html#supported-events
+
+
+let valor = 1;
+
+const counter = () => { 
+  console.log('+1');
+  valor  = 1000;
+  console.log(valor);
+};
+
+
+export const App = ({title,subtitle}) => {
+
+  return (
+    <>
+        <h4>{ title }</h4>
+        <h4>{ subtitle }</h4>
+        <p>Soy un subtitulo</p>
+        <button onClick={ counter }>+1</button>
+        <p>{valor}</p> //No actualiza, necesito los Hooks
+    </>
+  )
+};
+
+
+
+-------------------------------------------------------------------------------
+Hooks en react
+https://es.reactjs.org/docs/hooks-intro.html
+
+//useState
+
+import { useState } from 'react';
+
+export const App = ({title,subtitle}) => {
+
+  const [ valor, setValor ] = useState( 1 );
+
+  const counter = () => { 
+    console.log('+1');
+    setValor(valor + 1);
+  };
+
+  return (
+    <>
+        <h4>{ title }</h4>
+        <h4>{ subtitle }</h4>
+        <p>Soy un subtitulo</p>
+        <button onClick={ counter }>+1</button>
+        <p>{valor}</p>
+    </>
+  )
+};
+
+-------------------------------------------------------------------------------
+Reactive Forms en react
+
+//SimpleFormBtn ---------------------------------------------------------------
+
+import React from 'react';
+import { useState } from 'react';
+
+export const SimpleFormBtn = () => {
+
+    const [formState, setformState] = useState({
+        username: 'Jose',
+        email: 'jose@gmmail.com'
+    });
+
+    const {username, email} = formState;
+
+    // const onInputChange = (event) => {
+    //     console.log(event.target.value);
+    // };
+
+    const onInputChange = ({target}) => {
+        const {name, value} = target;
+        // console.log({name, value});
+        setformState({
+            ...formState,
+            [name]:value
+        });
+    };
+
+    const handleSummit = (event) => {
+            console.log({email, username});
+        };
+
+  return (
+    <>
+    <h1>SimpleFormBtn</h1>
+    <hr />
+    <input 
+        type="text" 
+        className='form-control' 
+        placeholder='username' 
+        name='username' 
+        value={ username }
+        onChange={ onInputChange }
+        />
+    <input 
+        type="email" 
+        className='form-control mt-2' 
+        placeholder='email@email.com' 
+        name='email' 
+        value={ email }
+        onChange={ onInputChange }
+        />
+    <button onClick={handleSummit}>Summit</button>
+    <hr />
+        <p>{username}</p>
+        <p>{email}</p>
+    </>
+  )
+}
+
+-------------------------------------------------------------------------------
+item List en react
+
+//Lista ---------------------------------------------------------------
+
+import { useState } from 'react';
+
+export const Lista = () => {
+
+    const [categories, setCategories] = useState(['Java','Python','TS','.Net']);
+
+    console.log(categories);
+
+
+  return (
+    <>
+    <h1>ItemList</h1>
+    <hr />
+    <ol>
+        { categories.map(categorie => {return <li key={categorie}>{categorie}</li>} ) }
+    </ol>
+     <p>{mostrar()}</p>
+    </>
+  )
+}
